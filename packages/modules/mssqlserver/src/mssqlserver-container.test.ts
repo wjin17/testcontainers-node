@@ -1,3 +1,4 @@
+import path from "path";
 import { Wait } from "testcontainers";
 import sql, { config } from "mssql";
 import { MSSQLServerContainer } from "./mssqlserver-container";
@@ -76,6 +77,37 @@ describe("MSSqlServerContainer", () => {
           "or percent (%)."
       );
     }
+  });
+  // }
+
+  // seed db and query {
+  it("should connect and return a query result", async () => {
+    const container = await new MSSQLServerContainer()
+      .acceptLicense()
+      .withDatabase("demo")
+      .withWorkingDir("/usr/src/app")
+      .withCopyDirectoriesToContainer([
+        {
+          source: path.resolve(__dirname + "/init"),
+          target: "/usr/src/app",
+        },
+      ])
+      .withWaitStrategy(Wait.forLogMessage(/.*Demo setup is complete.*/, 1))
+      .withEntrypoint(["./entrypoint.sh"])
+      .start();
+
+    const connectionString = container.getConnectionUri();
+    const connection = await sql.connect(connectionString);
+
+    const { recordset } = await connection.query`
+      SELECT FirstName 
+      FROM DemoUser
+      WHERE UserID=1;
+    `;
+    expect(recordset).toStrictEqual([{ FirstName: "Philip" }]);
+
+    await connection.close();
+    await container.stop();
   });
   // }
 });

@@ -1,4 +1,5 @@
-#bin/bash
+#!/bin/bash
+
 set -m 
-/opt/mssql/bin/sqlserver & /bin/bash ./import.sh
+/opt/mssql/bin/sqlservr & ./import.sh
 fg

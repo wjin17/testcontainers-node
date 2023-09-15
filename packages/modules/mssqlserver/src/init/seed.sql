@@ -1,19 +1,25 @@
+CREATE DATABASE demo;
+GO
+USE demo;
+GO
+
 -- create users table and insert data
-CREATE TABLE Users (
-    ID int IDENTITY(1,1) PRIMARY KEY,
+CREATE TABLE DemoUser (
+    UserID int IDENTITY(1, 1) PRIMARY KEY,
     FirstName varchar(255),
     LastName varchar(255),
 );
 
-INSERT INTO Users (ID, FirstName, LastName)
-VALUES (0, 'Tony', 'Starn');
+INSERT INTO DemoUser (FirstName, LastName)
+VALUES ('Philip', 'Fry');
 
-INSERT INTO Users (ID, FirstName, LastName)
-VALUES (0, 'Steve', 'Roberts');
+INSERT INTO DemoUser (FirstName, LastName)
+VALUES ('Turanga', 'Leela');
 
-INSERT INTO Users (ID, FirstName, LastName)
-VALUES (0, 'Bruce', 'Blanter');
+INSERT INTO DemoUser (FirstName, LastName)
+VALUES ('Bender', 'N/A');
 
-INSERT INTO Users (ID, FirstName, LastName)
-VALUES (0, 'Natasha', 'Rollingoff');
+INSERT INTO DemoUser (FirstName, LastName)
+VALUES ('Hubert', 'Farnsworth');
+
 GO
